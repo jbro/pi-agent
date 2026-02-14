@@ -5,6 +5,7 @@
 !.gitignore
 
 # Allowlist of files/folders to version
+!README.md
 !SYSTEM.md
 !settings.json
 !skills/
