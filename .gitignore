@@ -1,0 +1,11 @@
+# Deny by default
+*
+
+# Keep Git ignore rules trackable
+!.gitignore
+
+# Allowlist of files/folders to version
+!SYSTEM.md
+!settings.json
+!skills/
+!skills/**
