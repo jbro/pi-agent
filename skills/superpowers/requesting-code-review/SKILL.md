@@ -86,6 +86,8 @@ git diff $BASE_SHA..$HEAD_SHA
 **Ready to merge?** [Yes / No / With fixes]
 **Reasoning:** [1-2 sentence technical assessment]
 
+For report wording quality (clarity, brevity, tone), use the `writing-clearly-and-concisely` skill.
+
 ## Integration with Workflows
 
 **When executing plans:**

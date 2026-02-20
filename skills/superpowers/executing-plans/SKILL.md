@@ -35,6 +35,7 @@ When batch complete:
 - Show what was implemented
 - Show verification output
 - Say: "Ready for feedback."
+- For concise, clear report wording, use the `writing-clearly-and-concisely` skill.
 
 ### Step 4: Continue
 Based on feedback:

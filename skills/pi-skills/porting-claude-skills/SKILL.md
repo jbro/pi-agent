@@ -97,3 +97,4 @@ Pi has no built-in subagent dispatch. Replace based on usage:
    ```
    Use the actual source repo URL and commit if known; omit the commit line if not.
 8. **Verify**: `name` matches directory; no forbidden patterns remain (`grep` scan passes)
+9. For any human-facing prose cleanup in adapted files, use the `writing-clearly-and-concisely` skill.

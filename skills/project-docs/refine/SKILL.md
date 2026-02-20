@@ -21,3 +21,4 @@ Distil what was learned this session back into `docs/`.
 - Don't duplicate what is clear from the code.
 - One topic per file; ask before splitting.
 - Write clearly: active voice, positive form, omit needless words, be specific.
+- For final prose quality, use the `writing-clearly-and-concisely` skill.

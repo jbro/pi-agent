@@ -72,6 +72,8 @@ When verbose (>500 words) or user requests: identify top 3 savings with estimate
 
 Target: ≥20% reduction without losing actionable content.
 
+For rewrite clarity and concision, use the `writing-clearly-and-concisely` skill.
+
 ## Report Format
 
 ```

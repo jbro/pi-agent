@@ -33,6 +33,8 @@ Or ask: "This branch split from main — is that correct?"
 
 ### Step 3: Present Options
 
+For polished user-facing status/PR text, use the `writing-clearly-and-concisely` skill.
+
 ```
 Implementation complete. What would you like to do?
 
