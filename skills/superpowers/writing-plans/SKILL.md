@@ -33,7 +33,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For Claude:** REQUIRED SKILL: Use superpowers:executing-plans to implement this plan task-by-task.
+> **REQUIRED:** Follow the executing-plans skill to implement this plan task-by-task.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -91,26 +91,14 @@ git commit -m "feat: add specific feature"
 - Exact file paths always
 - Complete code in plan (not "add validation")
 - Exact commands with expected output
-- Reference relevant skills with @ syntax
 - DRY, YAGNI, TDD, frequent commits
 
 ## Execution Handoff
 
-After saving the plan, offer execution choice:
+After saving the plan:
 
-**"Plan complete and saved to `docs/plans/<filename>.md`. Two execution options:**
+**"Plan complete and saved to `docs/plans/<filename>.md`. Ready to execute.**
 
-**1. Delegated-Worker (this session)** - I run a fresh delegated implementation pass per task, review between tasks, fast iteration
+**Load and follow the executing-plans skill to implement this plan task-by-task.**
 
-**2. Parallel Session (separate)** - Open new session with executing-plans, batch execution with checkpoints
-
-**Which approach?"**
-
-**If Delegated-Worker chosen:**
-- **REQUIRED SKILL:** Use superpowers:delegated-worker-development
-- Stay in this session
-- Fresh delegated worker per task + code review
-
-**If Parallel Session chosen:**
-- Guide them to open new session in worktree
-- **REQUIRED SKILL:** New session uses superpowers:executing-plans
+Use the executing-plans skill: it batches tasks, runs verifications after each, and reports for review between batches."

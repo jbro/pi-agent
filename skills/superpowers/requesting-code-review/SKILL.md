@@ -5,15 +5,14 @@ description: Use when completing tasks, implementing major features, or before m
 
 # Requesting Code Review
 
-Dispatch a code-review pass (delegated worker if available, otherwise a dedicated review pass in the current session) to catch issues before they cascade.
+Review code changes directly to catch issues before they cascade.
 
 **Core principle:** Review early, review often.
 
-## When to Request Review
+## When to Review
 
 **Mandatory:**
-- After each task in delegated-worker development
-- After completing major feature
+- After completing a major feature
 - Before merge to main
 
 **Optional but valuable:**
@@ -21,71 +20,79 @@ Dispatch a code-review pass (delegated worker if available, otherwise a dedicate
 - Before refactoring (baseline check)
 - After fixing complex bug
 
-## How to Request
+## How to Review
 
-**1. Get git SHAs:**
+**1. Get git range:**
 ```bash
 BASE_SHA=$(git rev-parse HEAD~1)  # or origin/main
 HEAD_SHA=$(git rev-parse HEAD)
+git diff --stat $BASE_SHA..$HEAD_SHA
+git diff $BASE_SHA..$HEAD_SHA
 ```
 
-**2. Run code review:**
+**2. Work through the review checklist below.**
 
-If delegated workers are available, run a code-reviewer pass. Otherwise, run a dedicated review pass in this session using the template at `code-reviewer.md`.
-
-**Placeholders:**
-- `{WHAT_WAS_IMPLEMENTED}` - What you just built
-- `{PLAN_OR_REQUIREMENTS}` - What it should do
-- `{BASE_SHA}` - Starting commit
-- `{HEAD_SHA}` - Ending commit
-- `{DESCRIPTION}` - Brief summary
-
-**3. Act on feedback:**
+**3. Act on findings:**
 - Fix Critical issues immediately
 - Fix Important issues before proceeding
 - Note Minor issues for later
-- Push back if reviewer is wrong (with reasoning)
 
-## Example
+## Review Checklist
 
-```
-[Just completed Task 2: Add verification function]
+**Code Quality:**
+- [ ] Clean separation of concerns?
+- [ ] Proper error handling?
+- [ ] DRY principle followed?
+- [ ] Edge cases handled?
 
-You: Let me request code review before proceeding.
+**Architecture:**
+- [ ] Sound design decisions?
+- [ ] Performance implications considered?
+- [ ] Security concerns addressed?
 
-BASE_SHA=$(git log --oneline | grep "Task 1" | head -1 | awk '{print $1}')
-HEAD_SHA=$(git rev-parse HEAD)
+**Testing:**
+- [ ] Tests actually test logic (not mocks)?
+- [ ] Edge cases covered?
+- [ ] All tests passing?
 
-[Run superpowers:code-reviewer review pass]
-  WHAT_WAS_IMPLEMENTED: Verification and repair functions for conversation index
-  PLAN_OR_REQUIREMENTS: Task 2 from docs/plans/deployment-plan.md
-  BASE_SHA: a7981ec
-  HEAD_SHA: 3df7661
-  DESCRIPTION: Added verifyIndex() and repairIndex() with 4 issue types
+**Requirements:**
+- [ ] All plan requirements met?
+- [ ] Implementation matches spec?
+- [ ] No scope creep?
 
-[Review pass returns]:
-  Strengths: Clean architecture, real tests
-  Issues:
-    Important: Missing progress indicators
-    Minor: Magic number (100) for reporting interval
-  Assessment: Ready to proceed
+**Production Readiness:**
+- [ ] No obvious bugs?
+- [ ] Breaking changes documented?
 
-You: [Fix progress indicators]
-[Continue to Task 3]
-```
+## Output Format
+
+### Strengths
+[What's well done? Be specific with file:line references.]
+
+### Issues
+
+#### Critical (Must Fix)
+[Bugs, security issues, data loss risks, broken functionality]
+
+#### Important (Should Fix)
+[Architecture problems, missing features, poor error handling, test gaps]
+
+#### Minor (Nice to Have)
+[Code style, optimization opportunities, documentation improvements]
+
+**For each issue:** file:line reference, what's wrong, why it matters, how to fix.
+
+### Assessment
+**Ready to merge?** [Yes / No / With fixes]
+**Reasoning:** [1-2 sentence technical assessment]
 
 ## Integration with Workflows
 
-**Delegated-Worker Development:**
-- Review after EACH task
-- Catch issues before they compound
-- Fix before moving to next task
+**When executing plans:**
+- Review after each batch of tasks
+- Fix issues before moving to next batch
 
-**Executing Plans:**
-- Review after each batch (3 tasks)
-- Get feedback, apply, continue
-
-**Ad-Hoc Development:**
+**Ad-hoc development:**
 - Review before merge
 - Review when stuck
 
@@ -95,11 +102,7 @@ You: [Fix progress indicators]
 - Skip review because "it's simple"
 - Ignore Critical issues
 - Proceed with unfixed Important issues
-- Argue with valid technical feedback
 
-**If reviewer wrong:**
-- Push back with technical reasoning
-- Show code/tests that prove it works
-- Request clarification
-
-See template at: requesting-code-review/code-reviewer.md
+**If a finding seems wrong:**
+- Check the code and tests carefully before dismissing
+- Push back with technical reasoning if review is incorrect
