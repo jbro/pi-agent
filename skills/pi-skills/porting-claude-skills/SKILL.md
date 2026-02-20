@@ -1,36 +1,28 @@
 ---
 name: porting-claude-skills
-description: Use when porting a Claude Code or superpowers skill to Pi/agentskills.io format. Covers frontmatter, tool references, cross-references, companion files, and subagent patterns.
+description: Use when porting a Claude Code skill to Pi/agentskills.io format. Covers frontmatter, tool references, cross-references, companion files, and subagent patterns.
 ---
 
-# Porting Claude Skills to Pi
+# Porting Claude Code Skills to Pi
 
 ## Overview
 
-Superpowers skills target Claude Code's `Skill` tool. Pi uses the agentskills.io standard:
+Claude Code skills target the `Skill` tool. Pi uses the agentskills.io standard:
 skills live in named directories, Pi auto-discovers them at startup, injects metadata into
 the system prompt as XML, and the agent loads full content on demand via the `Read` tool.
 
-Most skills port with mechanical changes. A few need substantive adaptation. Two should be skipped.
+Most skills port with mechanical changes. A few need substantive adaptation. Some should be skipped.
 
 ## Portability Assessment
 
-| Skill | Action | Reason |
-|---|---|---|
-| brainstorming | Direct port | No platform-specific tools |
-| writing-plans | Direct port | Minor: remove subagent execution option |
-| test-driven-development | Direct port | No platform-specific tools |
-| systematic-debugging | Direct port | Copy companion files |
-| verification-before-completion | Direct port | No changes needed |
-| receiving-code-review | Direct port | No platform-specific tools |
-| using-git-worktrees | Direct port | Minor: CLAUDE.md → AGENTS.md |
-| finishing-a-development-branch | Direct port | Minor: CLAUDE.md → AGENTS.md |
-| executing-plans | Direct port | Minor: remove subagent-driven option |
-| using-superpowers | Adapt | Skill tool → Read tool; TodoWrite → checklist; EnterPlanMode → remove |
-| requesting-code-review | Adapt | Task tool/subagent → direct review in current session |
-| writing-skills | Adapt | Install dir; subagent testing → manual |
-| subagent-driven-development | **Skip** | Entirely subagent-dependent |
-| dispatching-parallel-agents | **Skip** | Entirely subagent-dependent |
+Classify the skill before porting:
+
+| Category | Action |
+|---|---|
+| No platform-specific tools or patterns | Direct port |
+| Uses `TodoWrite`, `EnterPlanMode`, or `CLAUDE.md` references | Direct port with minor changes |
+| Uses `Task` tool incidentally (e.g., "dispatch a reviewer") | Adapt: replace with in-session instruction |
+| Entire skill orchestrates subagents via `Task` | **Skip** |
 
 ## Transformation Rules
 
@@ -92,10 +84,16 @@ Pi has no built-in subagent dispatch. Replace based on usage:
 
 ## Steps
 
-1. **Assess portability** — check the table; skip non-portable skills
+1. **Assess portability** — use the table above; skip non-portable skills
 2. **Read source** — `Read` SKILL.md and all companion files
 3. **Create output directory**: `mkdir -p ~/.pi/agent/skills/<skill-name>/`
 4. **Apply transforms** — frontmatter → cross-refs → sibling refs → tool refs → paths
 5. **Copy companion files** that pass the filter above
 6. **Write** adapted `SKILL.md`
-7. **Verify**: `name` matches directory; no forbidden patterns remain (`grep` scan passes)
+7. **Write `README.md`** in the skill directory with source attribution, e.g.:
+   ```
+   Adapted from [obra/superpowers](https://github.com/obra/superpowers), MIT License.
+   Adapted at commit: <commit-hash>
+   ```
+   Use the actual source repo URL and commit if known; omit the commit line if not.
+8. **Verify**: `name` matches directory; no forbidden patterns remain (`grep` scan passes)
